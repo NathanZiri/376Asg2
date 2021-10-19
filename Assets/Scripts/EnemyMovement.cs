@@ -16,6 +16,7 @@ public class EnemyMovement : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        floor = GameObject.Find("Plane");
         navma = this.GetComponent<NavMeshAgent>();
         _b = floor.GetComponent<Renderer>().bounds;
     }
