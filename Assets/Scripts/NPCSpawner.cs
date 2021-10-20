@@ -7,7 +7,7 @@ public class NPCSpawner : MonoBehaviour
     public GameObject player;
     public GameObject NPCSpawn;
     public float respawnTime = 3.0f;
-    public float despawnTime = 3.0f;
+    public float despawnTime = 7.0f;
     private Bounds _b;
     // Start is called before the first frame update
     void Start()
@@ -22,6 +22,13 @@ public class NPCSpawner : MonoBehaviour
         float xLoc = Random.Range(_b.min.x, _b.max.x);
         float zLoc = Random.Range(_b.min.z, _b.max.z);
         NPC.transform.position = new Vector3(xLoc, this.transform.position.y, zLoc);
+        StartCoroutine(despawnEnemy(NPC));
+    }
+
+    IEnumerator despawnEnemy(GameObject despawer)
+    {
+        yield return new WaitForSeconds(despawnTime);
+        Destroy(despawer);
     }
     
     IEnumerator NPCWave(){
