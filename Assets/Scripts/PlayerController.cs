@@ -39,17 +39,25 @@ public class PlayerController : MonoBehaviour
 
         if(Input.GetButtonDown("Interact"))
         {
-            Debug.Log("Interacting");
-            RaycastHit hit;
             Collider[] hitEnemies = Physics.OverlapSphere(transform.position, 3);
             foreach(var hitEnemy in hitEnemies){
                 InteractableEnemy intr = hitEnemy.GetComponent<InteractableEnemy>();
                 if (intr != null)
                 {
                     playerScore += intr.IncreaseScore();
-                    intr.modifyType(true);
+                }
+            } 
+            
+            Collider[] hitTables = Physics.OverlapSphere(transform.position, 3);
+            foreach(var hitTable in hitTables){
+                InteractableTable intr = hitTable.GetComponent<InteractableTable>();
+                if (intr != null)
+                {
+                    playerScore += intr.CleanTable();
                 }
             }
+            
+            
         }
         Debug.Log(playerScore);
     }

@@ -6,8 +6,8 @@ using UnityEngine.AI;
 [RequireComponent(typeof(NavMeshAgent))]
 public class EnemyMovement : MonoBehaviour
 {
-    public float minWait = 2f;
-    public float maxWait = 5f;
+    public float minWait = 1f;
+    public float maxWait = 4f;
     public GameObject floor = null;
     private NavMeshAgent navma = null;
     private Bounds _b;
@@ -34,9 +34,9 @@ public class EnemyMovement : MonoBehaviour
     
     private void ChoseDestination()
     {
+        //Debug.Log(_b.min.x + "    " + _b.min.x);
+        //Debug.Log(_b.min.z + "    " + _b.min.z);
         float xLoc = Random.Range(_b.min.x, _b.max.x);
-        Debug.Log(_b.min.x + "    " + _b.min.x);
-        Debug.Log(_b.min.z + "    " + _b.min.z);
         float zLoc = Random.Range(_b.min.z, _b.max.z);
         Vector3 newPos = new Vector3(xLoc, this.transform.position.y, zLoc);
         navma.SetDestination(newPos);

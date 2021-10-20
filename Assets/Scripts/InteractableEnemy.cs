@@ -12,33 +12,32 @@ public class InteractableEnemy : Interactable
     public GameObject vaxSymbol;
     public GameObject susceptibleSymbol;
     public GameObject infectedSymbol;
-
+    
     private void Start()
     {
         string[] t = {"V", "U", "S", "I"};
         int val = Random.Range(0, 4);
-        masked = Random.Range(0, 2) == 1 ? true : false;
+        masked = Random.Range(0, 2) == 1;
         type = t[val];
     }    
     private void Update()
     {
-        if (type.Equals("V"))
-        {
+        if (type.Equals("V")) {
             vaxSymbol.SetActive(true);
             susceptibleSymbol.SetActive(false);
             infectedSymbol.SetActive(false);
-        }else if (type.Equals("I"))
-        {
+        }
+        else if (type.Equals("I")) {
             vaxSymbol.SetActive(false);
             susceptibleSymbol.SetActive(false);
             infectedSymbol.SetActive(true);
-        }else if (type.Equals("U"))
-        {
+        }
+        else if (type.Equals("U")) {
             vaxSymbol.SetActive(false);
             susceptibleSymbol.SetActive(false);
             infectedSymbol.SetActive(false);
-        }else if (type.Equals("S"))
-        {
+        }
+        else if (type.Equals("S")) {
             vaxSymbol.SetActive(false);
             susceptibleSymbol.SetActive(true);
             infectedSymbol.SetActive(false); 
@@ -46,8 +45,7 @@ public class InteractableEnemy : Interactable
         mask.SetActive(masked);
         
         int percentageChance = Random.Range(0, 100);
-        RaycastHit hit;
-        Collider[] hitEnemies = Physics.OverlapSphere(transform.position, 3);
+        Collider[] hitEnemies = Physics.OverlapSphere(transform.position, radius);
         foreach(var hitEnemy in hitEnemies){
             InteractableEnemy intr = hitEnemy.GetComponent<InteractableEnemy>();
             if (intr != null)
@@ -71,43 +69,32 @@ public class InteractableEnemy : Interactable
 
     public void modifyType(bool alreadySick)
     {
+        if (type.Equals("V"))
+            return;
         type = alreadySick ? "U" : "I";
     }
 
-    private void changeMat()
-    {
-        if (type.Equals("V"))
-        {
-            
-        }else if (type.Equals("U"))
-        {
-            
-        }else if (type.Equals("UM"))
-        {
-            
-        }else if (type.Equals("S"))
-        {
-            
-        }else if (type.Equals("I"))
-        {
-            
-        }
-    }
-    
     public int IncreaseScore()
     {
         int score = 0;
-        if(type.Equals("I"))
-        {
-            type = "U";
-            score += 2;
-        }
-
+        
         if (!masked)
         {
             masked = true;
             score += 2;
         }
+        
+        if(type.Equals("S") || type.Equals("V"))
+        {
+            return score;
+        }
+        
+        if(type.Equals("I"))
+        {
+            type = "U";
+            score += 2;
+        }
+        
         return score;
     }
     
