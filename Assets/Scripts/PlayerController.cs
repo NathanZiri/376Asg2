@@ -5,7 +5,7 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     public CharacterController cc;
-    public float speed = 6f;
+    public float speed = 10f;
     private float smoothTurn;
     public int playerScore = 0; 
 

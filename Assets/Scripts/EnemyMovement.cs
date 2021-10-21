@@ -19,6 +19,8 @@ public class EnemyMovement : MonoBehaviour
         floor = GameObject.Find("Plane");
         navma = this.GetComponent<NavMeshAgent>();
         _b = floor.GetComponent<Renderer>().bounds;
+        
+        Invoke("ChoseDestination", 1);
     }
 
     // Update is called once per frame
@@ -27,7 +29,6 @@ public class EnemyMovement : MonoBehaviour
         if (navma.hasPath == false || navma.remainingDistance < 1.0f)
         {
             float time = Random.Range(minWait, maxWait);
-            this.GetComponent<Renderer>().material.color = Color.red;
             Invoke("ChoseDestination", time);
         }
     }
@@ -40,6 +41,5 @@ public class EnemyMovement : MonoBehaviour
         float zLoc = Random.Range(_b.min.z, _b.max.z);
         Vector3 newPos = new Vector3(xLoc, this.transform.position.y, zLoc);
         navma.SetDestination(newPos);
-        this.GetComponent<Renderer>().material.color = Color.green;
     }
 }

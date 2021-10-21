@@ -53,5 +53,5 @@ public class InteractableTable:Interactable
             return 0;
         }
     }
-    
+
 }
