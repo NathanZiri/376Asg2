@@ -4,9 +4,10 @@ public class InteractableTable:Interactable
 {
     public GameObject sick;
     public bool isSick;
+    public GameObject player;
 
-    private float minWait = 3f;
-    private float maxWait = 8f;
+    private float minWait = 6f;
+    private float maxWait = 10f;
     
     void Start()
     {
@@ -21,12 +22,16 @@ public class InteractableTable:Interactable
     void Update()
     {
         
-        Collider[] hitEnemies = Physics.OverlapSphere(transform.position, radius);
-        foreach(var hitEnemy in hitEnemies){
-            InteractableEnemy intr = hitEnemy.GetComponent<InteractableEnemy>();
-            if (intr != null)
+        if(isSick)
+        {
+            Collider[] hitEnemies = Physics.OverlapSphere(transform.position, radius);
+            foreach (var hitEnemy in hitEnemies)
             {
-                intr.modifyType(false);
+                InteractableEnemy intr = hitEnemy.GetComponent<InteractableEnemy>();
+                if (intr != null)
+                {
+                    intr.modifyType(false);
+                }
             }
         }
     }
@@ -35,8 +40,15 @@ public class InteractableTable:Interactable
     {
         isSick = true;
         sick.SetActive(isSick);
+		Invoke("LateDisinfect", 6);
     }
     
+	private void LateDisinfect()
+    {
+        if (isSick)
+            player.GetComponent<PlayerController>().playerScore -= 2;
+    }
+
     public int CleanTable()
     {
         
@@ -46,7 +58,7 @@ public class InteractableTable:Interactable
             sick.SetActive(isSick);
             float time = Random.Range(minWait, maxWait);
             Invoke("DirtyTable", time);
-            return 5;
+            return 2;
         }
         else
         {

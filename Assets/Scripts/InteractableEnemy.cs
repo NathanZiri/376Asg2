@@ -81,7 +81,7 @@ public class InteractableEnemy : Interactable
         if (!masked)
         {
             masked = true;
-            score += 2;
+            score += 1;
         }
         
         if(type.Equals("S") || type.Equals("V"))
@@ -92,10 +92,15 @@ public class InteractableEnemy : Interactable
         if(type.Equals("I"))
         {
             type = "U";
-            score += 2;
+            score += 1;
         }
         
         return score;
+    }
+
+    public void destroySelf()
+    {
+        Destroy(this);
     }
     
 }

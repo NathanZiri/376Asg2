@@ -17,6 +17,8 @@ public class NPCSpawner : MonoBehaviour
         StartCoroutine(WaveController());
         for(int i = 0 ; i < 5; i++)
             spawnEnemy();
+        StartCoroutine(BigWave(30));
+        StartCoroutine(BigWave(60));
     }
 
     private void spawnEnemy()
@@ -37,10 +39,16 @@ public class NPCSpawner : MonoBehaviour
         }
         if (!despawer.GetComponent<InteractableEnemy>().type.Equals("I"))
         {
-            player.GetComponent<PlayerController>().playerScore -= 1;
+            player.GetComponent<PlayerController>().playerScore -= 3;
         }
         
         Destroy(despawer);
+    }
+    
+    IEnumerator BigWave(int waitTime){
+        yield return new WaitForSeconds(waitTime);
+        for(int i = 0; i < 6; i++)
+            spawnEnemy();
     }
     
     IEnumerator NPCWave(){

@@ -5,6 +5,7 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     public CharacterController cc;
+    public float radius = 6;
     public float speed = 10f;
     private float smoothTurn;
     public int playerScore = 0; 
@@ -17,7 +18,7 @@ public class PlayerController : MonoBehaviour
     void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.yellow;
-        Gizmos.DrawWireSphere(transform.position, 3);
+        Gizmos.DrawWireSphere(transform.position, radius);
     }
     
     // Update is called once per frame
@@ -39,16 +40,29 @@ public class PlayerController : MonoBehaviour
 
         if(Input.GetButtonDown("Interact"))
         {
-            Collider[] hitEnemies = Physics.OverlapSphere(transform.position, 3);
+            int numHit = 0;
+            Collider[] hitEnemies = Physics.OverlapSphere(transform.position, radius);
             foreach(var hitEnemy in hitEnemies){
                 InteractableEnemy intr = hitEnemy.GetComponent<InteractableEnemy>();
                 if (intr != null)
                 {
+                    numHit++;
                     playerScore += intr.IncreaseScore();
                 }
-            } 
+            }
+
+            if (numHit >= 2)
+            {
+                foreach(var hitEnemy in hitEnemies){
+                    InteractableEnemy intr = hitEnemy.GetComponent<InteractableEnemy>();
+                    if (intr != null)
+                    {
+                        Debug.Log("Destroy now");
+                    }
+                } 
+            }
             
-            Collider[] hitTables = Physics.OverlapSphere(transform.position, 3);
+            Collider[] hitTables = Physics.OverlapSphere(transform.position, radius);
             foreach(var hitTable in hitTables){
                 InteractableTable intr = hitTable.GetComponent<InteractableTable>();
                 if (intr != null)
