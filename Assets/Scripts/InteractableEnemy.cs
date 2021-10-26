@@ -5,6 +5,7 @@ using UnityEngine.AI;
 
 public class InteractableEnemy : Interactable
 {
+    //parameter instantiation
     public string type;
     public bool masked;
     Material[] userType = new Material [4];
@@ -12,7 +13,6 @@ public class InteractableEnemy : Interactable
     public GameObject vaxSymbol;
     public GameObject susceptibleSymbol;
     public GameObject infectedSymbol;
-    
     private void Start()
     {
         string[] t = {"V", "U", "S", "I"};
@@ -20,6 +20,11 @@ public class InteractableEnemy : Interactable
         masked = Random.Range(0, 2) == 1;
         type = t[val];
     }    
+    
+    /*
+     * ensures that the npc's type is correlated with their symbols
+     * checks for users in proximity and attempts to infects each other if one of them are sick 
+     */
     private void Update()
     {
         if (type.Equals("V")) {
@@ -66,7 +71,8 @@ public class InteractableEnemy : Interactable
             }
         }
     }
-
+    
+    //for modifying npc types based on user interaction or proximity to other npcs
     public void modifyType(bool alreadySick)
     {
         if (type.Equals("V"))
@@ -74,6 +80,8 @@ public class InteractableEnemy : Interactable
         type = alreadySick ? "U" : "I";
     }
 
+    
+    //calculates how many points need to be given to the user
     public int IncreaseScore()
     {
         int score = 0;

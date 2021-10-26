@@ -12,7 +12,6 @@ public class EnemyMovement : MonoBehaviour
     private NavMeshAgent navma = null;
     private Bounds _b;
     
-    
     // Start is called before the first frame update
     void Awake()
     {
@@ -20,7 +19,7 @@ public class EnemyMovement : MonoBehaviour
         navma = this.GetComponent<NavMeshAgent>();
         _b = floor.GetComponent<Renderer>().bounds;
         
-        Invoke("ChoseDestination", 1);
+        Invoke("ChoseDestination", 0);
     }
 
     // Update is called once per frame
@@ -32,11 +31,16 @@ public class EnemyMovement : MonoBehaviour
             Invoke("ChoseDestination", time);
         }
     }
+
+    public void Relocate()
+    {
+        float xLoc = Random.Range(_b.min.x, _b.max.x);
+        float zLoc = Random.Range(_b.min.z, _b.max.z);
+        transform.position = new Vector3(xLoc, this.transform.position.y, zLoc);
+    }
     
     private void ChoseDestination()
     {
-        //Debug.Log(_b.min.x + "    " + _b.min.x);
-        //Debug.Log(_b.min.z + "    " + _b.min.z);
         float xLoc = Random.Range(_b.min.x, _b.max.x);
         float zLoc = Random.Range(_b.min.z, _b.max.z);
         Vector3 newPos = new Vector3(xLoc, this.transform.position.y, zLoc);
